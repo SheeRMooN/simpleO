@@ -1,5 +1,7 @@
 package com.leetcode;
 
+import java.util.Arrays;
+
 public class _1_TwoSum {
     /*
     Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
@@ -28,20 +30,19 @@ Only one valid answer exists.
      */
     public static void main(String[] args) {
         int[] array = {2, 3, 4};
-        _1_TwoSum twoSum = new _1_TwoSum();
-        System.out.println(twoSum.twoSum(array, 6));
+        _1_TwoSum twoSumClass = new _1_TwoSum();
+        System.out.println(Arrays.toString(twoSumClass.twoSum(array, 6)));
     }
     public int[] twoSum(int[] nums, int target) {
-        int i = 0;
-        int j = 0;
-        for (; i < nums.length; i++) {
-            for (; j < nums.length; j++) {
+        int[] val = new int[2];
+        for (int i = 0; i < nums.length; i++) {
+            for (int j =i + 1; j < nums.length; j++) {
                 if (nums[i] + nums[j] == target){
-                    return new int[] {i,j};
+                    val[0] = i;
+                    val[1] = j;
                 }
-                j = 0;
             }
         }
-        return null;
+        return val;
     }
 }
