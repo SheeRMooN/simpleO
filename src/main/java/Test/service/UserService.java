@@ -6,6 +6,7 @@ import Test.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class UserService extends ConnectionDAO implements UserDAO {
@@ -15,7 +16,6 @@ public class UserService extends ConnectionDAO implements UserDAO {
     public void add(User user) throws SQLException {
         PreparedStatement preparedStatement = null;
         String sql = "INSERT INTO users_game( name, password) values( ?, ?)";
-        System.out.println("serv : " + user.toString());
 
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -25,7 +25,6 @@ public class UserService extends ConnectionDAO implements UserDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("serv");
         }finally {
             if (preparedStatement != null){
                 preparedStatement.close();
@@ -75,20 +74,27 @@ public class UserService extends ConnectionDAO implements UserDAO {
     }
 
     @Override
-    public long searchUser(String name, String password) {
-        System.out.println(name + "  " + password);
+    public List<Long> searchUser(String name, String password) throws SQLException {
         PreparedStatement preparedStatement = null;
         String sql = "SELECT userId FROM users_game WHERE name = ? AND password = ?";
-        Long id = null;
+        List<Long> id = new LinkedList<>();
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, password);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-            id = resultSet.getLong("userId");
+            while (resultSet.next()) {
+                id.add(resultSet.getLong("userId"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            if (preparedStatement != null){
+                preparedStatement.close();
+            }
+            if (connection != null){
+                connection.close();
+            }
         }
 
         return id;

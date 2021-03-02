@@ -10,6 +10,6 @@ public interface UserDAO {
     void delete(User user);
     void update(User user);
     List<User> getAll() throws SQLException;
-    long searchUser(String name, String password);
+    List<Long> searchUser(String name, String password) throws SQLException;
 
 }

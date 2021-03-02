@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Event {
     private User user = new User();
@@ -31,7 +32,9 @@ public class Event {
 
             UserService userService = new UserService();
             userService.add(user);
-            //user.setUserId(userService.searchUser(user.getName(), user.getPassword()));
+            UserService userService1 = new UserService();
+            List<Long> longListUser = userService1.searchUser(user.getName(), user.getPassword());
+
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
